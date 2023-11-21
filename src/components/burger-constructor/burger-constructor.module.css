@@ -1,0 +1,35 @@
+.block{
+    max-height: 808px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    outline: 1px solid yellow;
+}
+
+.container{
+    max-width: 600px;
+    max-height: 656px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    outline: 1px solid green;
+}
+
+.total{
+    width: 100%;
+    margin-bottom: 52px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    outline: 1px solid red;
+}
+
+.price{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    outline: 1px dashed cadetblue;
+}
