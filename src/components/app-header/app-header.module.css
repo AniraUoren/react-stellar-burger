@@ -41,7 +41,7 @@
 }
 
 .btnToLogo{
-    margin-right: 113px;
+    margin-right: 113px !important;
 }
 
 .loginBtn{

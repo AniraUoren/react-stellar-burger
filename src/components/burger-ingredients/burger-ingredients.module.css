@@ -1,5 +1,12 @@
+.block{
+    width: 600px;
+    outline: 1px solid violet;
+}
+
 .list{
     padding: 0;
+    padding-left: 16px;
+    margin-bottom: 64px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

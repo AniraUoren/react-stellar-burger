@@ -11,7 +11,7 @@ function BurgerIngredients() {
     const [current, setCurrent] = React.useState('bun')
 
     return (
-        <div className="mr-10">
+        <div className={`${Styles.block}`}>
             <p className="text text_type_main-large mt-10 mb-5">
                 Соберите бургер
             </p>
@@ -34,7 +34,7 @@ function BurgerIngredients() {
                                 data.map(elem => {
                                     if (elem.type === "bun") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2}/>
                                         )
                                     }
                                 })
