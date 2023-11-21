@@ -8,13 +8,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /*display: grid;*/
-    /*grid-template-rows: 1fr;*/
-    /*grid-template-columns: repeat(3, minmax(min-content, max-content));*/
-    /*justify-content: space-between;*/
-    /*align-items: center;*/
     box-sizing: border-box;
-    outline: 1px solid yellow;
 }
 
 .container{
@@ -35,9 +29,8 @@
     align-items: center;
     border-radius: 40px;
     text-decoration: none;
-    color: white;
+    color: inherit;
     box-sizing: border-box;
-    outline: 1px solid salmon;
 }
 
 .btnToLogo{
