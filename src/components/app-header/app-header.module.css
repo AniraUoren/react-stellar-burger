@@ -17,20 +17,32 @@
     outline: 1px solid yellow;
 }
 
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
 .logo{
     justify-self: center;
 }
 
 .button{
+    height: 56px;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    border-radius: 40px;
+    text-decoration: none;
+    color: white;
+    box-sizing: border-box;
+    outline: 1px solid salmon;
 }
 
-.btnText{
-    margin-left: 8px !important;
-    letter-spacing: 1px;
+.btnToLogo{
+    margin-right: 113px;
 }
 
 .loginBtn{
-    justify-self: end;
 }

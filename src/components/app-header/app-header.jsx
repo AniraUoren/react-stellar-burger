@@ -5,21 +5,20 @@ import {Logo, Button, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/rea
 function AppHeader() {
     return (
         <header className={Styles.header}>
-            {/*<div className={Styles.container}>*/}
-                <div style={{display: "flex", flexDirection: "row", marginRight: "-90px"}}>
-                    <Button htmlType="button" type="secondary" size="medium" extraClass={`${Styles.button} pl-5 pr-5 mr-4`} style={{color: "#fff"}}>
-                        <BurgerIcon type="primary"/> <p className={`${Styles.btnText} text text_type_main-default`}>Конструктор</p>
-                    </Button>
-                    <Button htmlType="button" type="secondary" size="medium" extraClass={`${Styles.button} pl-5 pr-5`}>
-                        <ListIcon type="secondary" /> <p className={`${Styles.btnText} text text_type_main-default text_color_inactive`}>Лента заказов</p>
-                    </Button>
-                </div>
-                <Logo className={Styles.logo}/>
-                <Button htmlType="button" type="secondary" size="medium" extraClass={`${Styles.button} ${Styles.loginBtn} pl-5 pr-5`}>
-                    <ProfileIcon type="secondary"/> <p
-                    className={`${Styles.btnText} text text_type_main-default text_color_inactive`}>Личный кабинет</p>
-                </Button>
-            {/*</div>*/}
+            <div className={Styles.container}>
+                <a href="#" className={`${Styles.button} mt-4 mb-4 pl-5 pr-5 mr-2`}>
+                    <BurgerIcon type="primary"/>
+                    <p className={`text text_type_main-default ml-2`}>Конструктор</p>
+                </a>
+                <a href="#" className={`${Styles.button} ${Styles.btnToLogo} mt-4 mb-4 pl-5 pr-5 mr-2`}>
+                    <ListIcon type="secondary"/> <p
+                    className={`text text_type_main-default text_color_inactive ml-2`}>Лента заказов</p>
+                </a>
+            <Logo className={Styles.logo}/>
+            </div>
+            <a href="#" className={`${Styles.button}  mt-4 mb-4 pl-5 pr-5 mr-2`}>
+                <ProfileIcon type="secondary"/> <p className={`text text_type_main-default text_color_inactive ml-2`}>Личный кабинет</p>
+            </a>
         </header>
     )
 }
