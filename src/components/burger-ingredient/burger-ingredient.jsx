@@ -3,6 +3,7 @@ import React from "react";
 import Styles from "./burger-ingredient.module.css";
 
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 function BurgerIngredient(props) {
     return (
@@ -16,6 +17,15 @@ function BurgerIngredient(props) {
             {props.counter && <Counter count={props.counter} size="default" extraClass="m-1 mt-2" />}
         </li>
     );
+}
+
+BurgerIngredient.propTypes = {
+    ingredient: PropTypes.shape({
+        image: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.number,
+    }),
+    counter: PropTypes.number
 }
 
 export default BurgerIngredient;

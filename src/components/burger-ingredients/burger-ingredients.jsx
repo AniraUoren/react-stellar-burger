@@ -16,7 +16,7 @@ function BurgerIngredients() {
                 Соберите бургер
             </p>
             <div className="mb-10">
-                <div style={{display: 'flex'}} className="mb-10">
+                <div className={`${Styles.tab} mb-10`}>
                     <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                         Булки
                     </Tab>
@@ -27,7 +27,7 @@ function BurgerIngredients() {
                         Начинки
                     </Tab>
                 </div>
-                <div className="custom-scroll" style={{overflowY: "scroll", maxHeight: "756px", maxWidth: "600px"}}>
+                <div className={`${Styles.ingredients} custom-scroll`}>
                     <h2 className="text text_type_main-medium">Булки</h2>
                     <ul className={`${Styles.list} mb-10`}>
                             {
