@@ -3,7 +3,6 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/
 
 import Styles from "./burger-constructor.module.css";
 import {cartData} from "../../utils/data";
-import {element} from "prop-types";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 
