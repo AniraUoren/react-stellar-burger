@@ -1,6 +1,7 @@
 import React from "react";
 
 import Styles from "./ingredient-details.module.css";
+import {ingredientPropType} from "../../utils/prop-types";
 function IngredientDetails(props) {
     const {image, name, calories, proteins, fat, carbohydrates} = props.ingr;
     return(
@@ -30,6 +31,8 @@ function IngredientDetails(props) {
     )
 }
 
-//TODO Типизировать
+IngredientDetails.propTypes = {
+    ingredientPropType
+}
 
 export default IngredientDetails;

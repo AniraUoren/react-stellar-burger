@@ -4,6 +4,7 @@ import Styles from "./modal.module.css"
 
 import ReactDOM from "react-dom";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 const renderNode = document.getElementById("modals");
 
@@ -33,6 +34,9 @@ function Modal(props) {
         , renderNode);
 }
 
-//TODO Описать типы для компонента
+Modal.propTypes = {
+    close: PropTypes.func,
+    children: PropTypes.elementType
+}
 
 export default Modal;

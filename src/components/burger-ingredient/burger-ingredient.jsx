@@ -1,7 +1,7 @@
 import React from "react";
 
 import Styles from "./burger-ingredient.module.css";
-
+import {ingredientPropType} from "../../utils/prop-types";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -39,11 +39,7 @@ function BurgerIngredient(props) {
 }
 
 BurgerIngredient.propTypes = {
-    ingredient: PropTypes.shape({
-        image: PropTypes.string,
-        name: PropTypes.string,
-        price: PropTypes.number,
-    }),
+    ingredientPropType,
     counter: PropTypes.number
 }
 

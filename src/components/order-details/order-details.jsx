@@ -2,6 +2,7 @@ import React from "react";
 
 import doneImg from "../../images/done.png";
 import Styles from "./order-details.module.css";
+import PropTypes from "prop-types";
 
 function OrderDetails (props){
     return(
@@ -17,6 +18,8 @@ function OrderDetails (props){
     )
 }
 
-//TODO Типизировать
+OrderDetails.propTypes = {
+    orderId: PropTypes.number
+}
 
 export default OrderDetails;
