@@ -3,12 +3,12 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-ingredients.module.css"
 
-import {data} from "../../utils/data";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 
-function BurgerIngredients() {
+function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun')
+    const [...ingredients] = props.data;
 
     return (
         <div className={`${Styles.block}`}>
@@ -31,7 +31,7 @@ function BurgerIngredients() {
                     <h2 className="text text_type_main-medium">Булки</h2>
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "bun") {
                                         return (
                                             <BurgerIngredient ingredient={elem} key={elem._id} counter={2}/>
@@ -45,7 +45,7 @@ function BurgerIngredients() {
 
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "sauce") {
                                         return (
                                             <BurgerIngredient ingredient={elem} key={elem._id}/>
@@ -59,7 +59,7 @@ function BurgerIngredients() {
 
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "main") {
                                         return (
                                             <BurgerIngredient ingredient={elem} key={elem._id}/>
