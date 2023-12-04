@@ -1,0 +1,40 @@
+.block{
+    max-height: 808px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container{
+    max-width: 600px;
+    max-height: 656px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+.center{
+    max-height: 568px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    overflow-y: scroll;
+}
+
+.total{
+    width: 100%;
+    margin-bottom: 52px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}
+
+.price{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+}

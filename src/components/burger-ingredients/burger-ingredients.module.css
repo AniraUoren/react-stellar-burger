@@ -1,0 +1,26 @@
+.block{
+    width: 600px;
+}
+
+.list{
+    padding: 0;
+    padding-left: 16px;
+    margin-bottom: 64px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    row-gap: 32px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+.tab{
+    display: flex;
+}
+
+.ingredients{
+    max-width: 600px;
+    max-height: 756px;
+    overflow-y: scroll;
+}
