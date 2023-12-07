@@ -12,11 +12,23 @@ function App() {
     useEffect(() => {
         const getData = async () => {
             setIsLoading(true);
-            const res = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
-            const data = await res.json();
 
-            setIngredients(data.data);
-            setIsLoading(false);
+            fetch(`https://norma.nomoreparties.space/api/ingredients`)
+                .then(res => {
+                    if (res.ok) {
+                        return res.json();
+                    }
+                    return Promise.reject(`Ошибка ${res.status}`);
+                })
+                .then(data => {
+                    setIngredients(data.data);
+                })
+                .catch(err => {
+                    console.error(`Произошла ошибка: ${err}`)
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
             //TODO функцию в утиль, конфиг запросов собрать
         }
 
