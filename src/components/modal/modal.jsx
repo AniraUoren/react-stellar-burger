@@ -8,18 +8,18 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 
 function Modal(props) {
     useEffect(() => {
+        const handleCloseModalOnEsc = evt => {
+            if (evt.key === "Escape") {
+                props.close();
+            }
+        }
+
         document.addEventListener("keydown", handleCloseModalOnEsc);
 
         return () => {
             document.removeEventListener("keydown", handleCloseModalOnEsc);
         }
     }, []);
-
-    const handleCloseModalOnEsc = evt => {
-        if (evt.key === "Escape") {
-            props.close();
-        }
-    }
 
     return (
         <ModalOverlay>
@@ -33,7 +33,7 @@ function Modal(props) {
 
 Modal.propTypes = {
     close: PropTypes.func,
-    children: PropTypes.elementType
+    children: PropTypes.object
 }
 
 export default Modal;
