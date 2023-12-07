@@ -5,6 +5,7 @@ import Styles from "./burger-ingredients.module.css"
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import {ingredientPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 
 function BurgerIngredients(props) {
@@ -76,7 +77,7 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-    ingredientPropType
+    ingredients: PropTypes.array
 }
 
 export default BurgerIngredients;

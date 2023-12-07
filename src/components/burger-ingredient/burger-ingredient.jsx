@@ -19,7 +19,7 @@ function BurgerIngredient(props) {
 
     const modal = (
         <Modal close={handlerCloseModal}>
-            <IngredientDetails ingr={props.ingredient}/>
+            <IngredientDetails ingredient={props.ingredient}/>
         </Modal>
     );
     return (
