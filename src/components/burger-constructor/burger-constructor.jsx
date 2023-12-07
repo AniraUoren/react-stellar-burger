@@ -5,22 +5,15 @@ import Styles from "./burger-constructor.module.css";
 import {cartData} from "../../utils/data";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
+import {useModal} from "../../hooks/useModal";
 
 function BurgerConstructor() {
     const [cart, setCart] = React.useState(cartData);
     const [price, setPrice] = React.useState(610);
-    const [isShowModal, setIsShowModal] = React.useState(false);
-
-    const handlerOpenModal = () => {
-        setIsShowModal(true);
-    }
-
-    const handlerCloseModal = () => {
-        setIsShowModal(false);
-    }
+    const {isModalOpen, openModal, closeModal} = useModal();
 
     const modal = (
-        <Modal close={handlerCloseModal}>
+        <Modal close={closeModal}>
             <OrderDetails orderId={508}/>
         </Modal>
     )
@@ -85,10 +78,10 @@ function BurgerConstructor() {
             <p className="text text_type_digits-medium mr-2">{price}</p>
             <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={handlerOpenModal}>
+        <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={openModal}>
             Оформить заказ
         </Button>
-        {isShowModal && modal}
+        {isModalOpen && modal}
     </div>
 </div>
 )
