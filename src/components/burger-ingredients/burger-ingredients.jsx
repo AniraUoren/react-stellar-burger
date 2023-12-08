@@ -1,15 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-ingredients.module.css"
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
-
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun')
     const [...ingredients] = props.data;
+    const [clickedElement, setClickedElement] = useState(null);
+
+    const handleIngredientClick = (ingredient) => {
+        setClickedElement(ingredient);
+    }
+
+    const handleCloseModal = () => {
+        setClickedElement(null);
+    }
+
+    const modal = (
+        <Modal close={handleCloseModal}>
+            <IngredientDetails ingredient={clickedElement}/>
+        </Modal>
+    );
 
     return (
         <div className={`${Styles.block}`}>
@@ -35,7 +51,7 @@ function BurgerIngredients(props) {
                                 ingredients.map(elem => {
                                     if (elem.type === "bun") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -49,7 +65,7 @@ function BurgerIngredients(props) {
                                 ingredients.map(elem => {
                                     if (elem.type === "sauce") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -63,7 +79,7 @@ function BurgerIngredients(props) {
                                 ingredients.map(elem => {
                                     if (elem.type === "main") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -71,6 +87,7 @@ function BurgerIngredients(props) {
                     </ul>
                 </div>
             </div>
+            {clickedElement && modal}
         </div>
     )
 }
