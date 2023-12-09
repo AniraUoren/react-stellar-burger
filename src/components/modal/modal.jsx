@@ -5,6 +5,9 @@ import Styles from "./modal.module.css"
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import ReactDOM from "react-dom";
+
+const renderNode = document.getElementById("modals");
 
 function Modal(props) {
     useEffect(() => {
@@ -21,14 +24,15 @@ function Modal(props) {
         }
     }, []);
 
-    return (
+    return ReactDOM.createPortal(
         <ModalOverlay>
             <div className={`${Styles.content} pl-10 pr-10`} onClick={props.close}>
                 <button type="button" className={`${Styles.closeBtn}`} onClick={props.close}><CloseIcon type="primary"/>
                 </button>
                 {props.children}
             </div>
-        </ModalOverlay>)
+        </ModalOverlay>,
+        renderNode);
 }
 
 Modal.propTypes = {

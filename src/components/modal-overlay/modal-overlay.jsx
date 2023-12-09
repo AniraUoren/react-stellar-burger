@@ -2,15 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Styles from "./modal-overlay.module.css";
 
-const renderNode = document.getElementById("modals");
-
-function ModuleOverlay(props) {
-    return ReactDOM.createPortal(
+function ModalOverlay(props) {
+    return (
         <div className={`${Styles.overlay}`}>
             {props.children}
-        </div>,
-        renderNode
+        </div>
     )
 }
 
-export default ModuleOverlay;
+export default ModalOverlay;
