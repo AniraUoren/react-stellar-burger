@@ -25,8 +25,8 @@ function Modal(props) {
     }, []);
 
     return ReactDOM.createPortal(
-        <ModalOverlay>
-            <div className={`${Styles.content} pl-10 pr-10`} onClick={props.close}>
+        <ModalOverlay closePopup={props.close}>
+            <div className={`${Styles.content} pl-10 pr-10`} onClick={evt => {evt.stopPropagation();}}>
                 <button type="button" className={`${Styles.closeBtn}`} onClick={props.close}><CloseIcon type="primary"/>
                 </button>
                 {props.children}
