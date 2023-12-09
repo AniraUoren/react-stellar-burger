@@ -32,7 +32,7 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-    ingredientPropType
+    ingredient: ingredientPropType
 }
 
 export default IngredientDetails;

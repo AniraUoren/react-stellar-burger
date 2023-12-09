@@ -25,7 +25,7 @@ function BurgerIngredient(props) {
 }
 
 BurgerIngredient.propTypes = {
-    ingredientPropType,
+    ingredient: ingredientPropType,
     counter: PropTypes.number
 }
 
