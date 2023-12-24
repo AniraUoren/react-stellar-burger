@@ -3,11 +3,21 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/
 
 import Styles from "./burger-constructor.module.css";
 import {cartData} from "../../utils/data";
-import {element} from "prop-types";
+import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
+import {useModal} from "../../hooks/useModal";
 
 function BurgerConstructor() {
     const [cart, setCart] = React.useState(cartData);
     const [price, setPrice] = React.useState(610);
+    const {isModalOpen, openModal, closeModal} = useModal();
+
+    const modal = (
+        <Modal close={closeModal}>
+            <OrderDetails orderId={508}/>
+        </Modal>
+    )
+
     return (
         <div className={`${Styles.block} pt-25`}>
             <div className={`${Styles.container} mb-10`}>
@@ -18,7 +28,7 @@ function BurgerConstructor() {
                                 <ConstructorElement
                                     type="top"
                                     isLocked={true}
-                                    text={elem.name}
+                                    text={`${elem.name} (верх)`}
                                     price={elem.price}
                                     thumbnail={elem.image}
                                     extraClass="ml-8"
@@ -52,7 +62,7 @@ function BurgerConstructor() {
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={elem.name}
+                                text={`${elem.name} (низ)`}
                                 price={elem.price}
                                 thumbnail={elem.image}
                                 extraClass="ml-8"
@@ -68,9 +78,10 @@ function BurgerConstructor() {
             <p className="text text_type_digits-medium mr-2">{price}</p>
             <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4">
+        <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={openModal}>
             Оформить заказ
         </Button>
+        {isModalOpen && modal}
     </div>
 </div>
 )

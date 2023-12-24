@@ -1,14 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-ingredients.module.css"
 
-import {data} from "../../utils/data";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
+import PropTypes from "prop-types";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import {ingredientPropType} from "../../utils/prop-types";
 
-
-function BurgerIngredients() {
+function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun')
+    const [...ingredients] = props.data;
+    const [clickedElement, setClickedElement] = useState(null);
+
+    const handleIngredientClick = (ingredient) => {
+        setClickedElement(ingredient);
+    }
+
+    const handleCloseModal = () => {
+        setClickedElement(null);
+    }
+
+    const modal = (
+        <Modal close={handleCloseModal}>
+            <IngredientDetails ingredient={clickedElement}/>
+        </Modal>
+    );
 
     return (
         <div className={`${Styles.block}`}>
@@ -31,10 +49,10 @@ function BurgerIngredients() {
                     <h2 className="text text_type_main-medium">Булки</h2>
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "bun") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -45,10 +63,10 @@ function BurgerIngredients() {
 
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "sauce") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -59,10 +77,10 @@ function BurgerIngredients() {
 
                     <ul className={`${Styles.list} mb-10`}>
                             {
-                                data.map(elem => {
+                                ingredients.map(elem => {
                                     if (elem.type === "main") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 })
@@ -70,8 +88,13 @@ function BurgerIngredients() {
                     </ul>
                 </div>
             </div>
+            {clickedElement && modal}
         </div>
     )
+}
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;
