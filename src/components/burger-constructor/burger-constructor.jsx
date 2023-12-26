@@ -6,9 +6,10 @@ import {cartData} from "../../utils/data";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
+import {useSelector} from "react-redux";
 
 function BurgerConstructor() {
-    const [cart, setCart] = React.useState(cartData);
+    const cart = useSelector(state => state.burgerConstructor.constructor);
     const [price, setPrice] = React.useState(610);
     const {isModalOpen, openModal, closeModal} = useModal();
 
