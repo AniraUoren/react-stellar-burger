@@ -36,13 +36,12 @@ export const burgerIngredientsSlice = createSlice({
             .addCase(getIngredients.fulfilled, (state, action) => {
                 state.burgerIngredientsLoaded = true;
                 state.burgerIngredientsLoading = false;
-                state.burgerIngredients = [...state.burgerIngredients, action.payload.data];
-                console.log(action.payload)
+                state.burgerIngredients = [...action.payload.data];
             })
             .addCase(getIngredients.rejected, (state, action) => {
                 state.burgerIngredientsLoading = false;
                 state.burgerIngredientsError = true;
-                // state.burgerIngredients = {};
+                state.burgerIngredients = {};
                 state.burgerIngredientsErrorText = action.payload.error;
             })
     }
