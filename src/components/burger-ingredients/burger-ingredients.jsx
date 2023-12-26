@@ -6,26 +6,32 @@ import Styles from "./burger-ingredients.module.css"
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients, hideIngredient, showIngredient} from "../../services/reducers/burger-ingredients.slice";
 
 function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun')
-    // const [...ingredients] = props.data;
-    const [clickedElement, setClickedElement] = useState(null);
     const ingredients = useSelector(state => state.burgerIngredients.burgerIngredients)
     const isIngredientsLoaded = useSelector(state => state.burgerIngredients.burgerIngredientsLoaded);
+    const showModal = useSelector(state => state.burgerIngredients.showModal)
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(getIngredients());
+    }, []);
 
     const handleIngredientClick = (ingredient) => {
-        setClickedElement(ingredient);
+        dispatch(showIngredient(ingredient));
     }
 
     const handleCloseModal = () => {
-        setClickedElement(null);
+        dispatch(hideIngredient());
     }
 
     const modal = (
         <Modal close={handleCloseModal}>
-            <IngredientDetails ingredient={clickedElement}/>
+            <IngredientDetails/>
         </Modal>
     );
 
@@ -91,7 +97,7 @@ function BurgerIngredients(props) {
                     </ul>
                 </div>
             </div>
-            {clickedElement && modal}
+            {showModal && modal}
         </div>
     )
 }

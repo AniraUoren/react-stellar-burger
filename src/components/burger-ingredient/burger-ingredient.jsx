@@ -4,11 +4,14 @@ import Styles from "./burger-ingredient.module.css";
 import {ingredientPropType} from "../../utils/prop-types";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import {showIngredient} from "../../services/reducers/burger-ingredients.slice";
+import {useDispatch} from "react-redux";
 
 function BurgerIngredient(props) {
+    const dispatch = useDispatch();
 
     const handleClick = () => {
-        props.setSelectedElement(props.ingredient);
+        dispatch(showIngredient(props.ingredient));
     }
 
     return (

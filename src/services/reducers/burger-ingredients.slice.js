@@ -17,16 +17,24 @@ const initialState = {
     burgerIngredientsLoading: false,
     burgerIngredientsLoaded: false,
     burgerIngredientsError: false,
-    burgerIngredientsErrorText: null
+    burgerIngredientsErrorText: null,
+    viewedIngredient: {},
+    showModal: false
 };
 
 export const burgerIngredientsSlice = createSlice({
     name: "burgerIngredients",
     initialState,
     reducers: {
-        adding: (state, arrayIngredients) => {
-            state.burgerIngredients = [...state.burgerIngredients, arrayIngredients]
+        showIngredient: (state, {payload: ingredient}) => {
+            console.log(ingredient)
+            state.viewedIngredient = ingredient;
+            state.showModal = true;
         },
+        hideIngredient: (state) => {
+            state.viewedIngredient = {};
+            state.showModal = false;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -47,6 +55,6 @@ export const burgerIngredientsSlice = createSlice({
     }
 })
 
-export const {adding} = burgerIngredientsSlice.actions;
+export const {hideIngredient, showIngredient} = burgerIngredientsSlice.actions;
 
 export default burgerIngredientsSlice.reducer;
