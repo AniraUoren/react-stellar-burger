@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-ingredients.module.css"
@@ -8,11 +8,15 @@ import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {ingredientPropType} from "../../utils/prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients} from "../../services/reducers/burger-ingredients.slice";
 
 function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun')
-    const [...ingredients] = props.data;
+    // const [...ingredients] = props.data;
     const [clickedElement, setClickedElement] = useState(null);
+    const ingredients = useSelector(state => state.burgerIngredients)
+    const isIngredientsLoaded = !!ingredients;
 
     const handleIngredientClick = (ingredient) => {
         setClickedElement(ingredient);
@@ -33,61 +37,62 @@ function BurgerIngredients(props) {
             <p className="text text_type_main-large mt-10 mb-5">
                 Соберите бургер
             </p>
-            <div className="mb-10">
-                <div className={`${Styles.tab} mb-10`}>
-                    <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
-                        Булки
-                    </Tab>
-                    <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
-                        Соусы
-                    </Tab>
-                    <Tab value="main" active={current === 'main'} onClick={setCurrent}>
-                        Начинки
-                    </Tab>
-                </div>
-                <div className={`${Styles.ingredients} custom-scroll`}>
-                    <h2 className="text text_type_main-medium">Булки</h2>
-                    <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "bun") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
-                    </ul>
+            {isIngredientsLoaded ? <div>NOT LOADED</div> : <div>LOADED</div>}
+            {/*<div className="mb-10">*/}
+            {/*    <div className={`${Styles.tab} mb-10`}>*/}
+            {/*        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>*/}
+            {/*            Булки*/}
+            {/*        </Tab>*/}
+            {/*        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>*/}
+            {/*            Соусы*/}
+            {/*        </Tab>*/}
+            {/*        <Tab value="main" active={current === 'main'} onClick={setCurrent}>*/}
+            {/*            Начинки*/}
+            {/*        </Tab>*/}
+            {/*    </div>*/}
+            {/*    <div className={`${Styles.ingredients} custom-scroll`}>*/}
+            {/*        <h2 className="text text_type_main-medium">Булки</h2>*/}
+            {/*        <ul className={`${Styles.list} mb-10`}>*/}
+            {/*                {*/}
+            {/*                    ingredients.map(elem => {*/}
+            {/*                        if (elem.type === "bun") {*/}
+            {/*                            return (*/}
+            {/*                                <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>*/}
+            {/*                            )*/}
+            {/*                        }*/}
+            {/*                    })*/}
+            {/*                }*/}
+            {/*        </ul>*/}
 
-                    <h2 className="text text_type_main-medium">Соусы</h2>
+            {/*        <h2 className="text text_type_main-medium">Соусы</h2>*/}
 
-                    <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "sauce") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
-                    </ul>
+            {/*        <ul className={`${Styles.list} mb-10`}>*/}
+            {/*                {*/}
+            {/*                    ingredients.map(elem => {*/}
+            {/*                        if (elem.type === "sauce") {*/}
+            {/*                            return (*/}
+            {/*                                <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>*/}
+            {/*                            )*/}
+            {/*                        }*/}
+            {/*                    })*/}
+            {/*                }*/}
+            {/*        </ul>*/}
 
-                    <h2 className="text text_type_main-medium">Начинки</h2>
+            {/*        <h2 className="text text_type_main-medium">Начинки</h2>*/}
 
-                    <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "main") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
-                    </ul>
-                </div>
-            </div>
+            {/*        <ul className={`${Styles.list} mb-10`}>*/}
+            {/*                {*/}
+            {/*                    ingredients.map(elem => {*/}
+            {/*                        if (elem.type === "main") {*/}
+            {/*                            return (*/}
+            {/*                                <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>*/}
+            {/*                            )*/}
+            {/*                        }*/}
+            {/*                    })*/}
+            {/*                }*/}
+            {/*        </ul>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             {clickedElement && modal}
         </div>
     )

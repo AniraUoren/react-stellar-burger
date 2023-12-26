@@ -1,0 +1,1 @@
+export const getIngredientsAPI = () => fetch(`https://norma.nomoreparties.space/api/ingredients`);
