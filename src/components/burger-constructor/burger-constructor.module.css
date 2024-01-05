@@ -14,6 +14,12 @@
     box-sizing: border-box;
 }
 
+.element{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .center{
     max-height: 568px;
     display: flex;

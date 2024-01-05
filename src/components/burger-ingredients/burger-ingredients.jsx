@@ -59,7 +59,7 @@ function BurgerIngredients(props) {
                                 isIngredientsLoaded ? ingredients.map(elem => {
                                     if (elem.type === "bun") {
                                         return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>
+                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
                                         )
                                     }
                                 }) : <p>NO DATA</p>

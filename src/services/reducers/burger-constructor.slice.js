@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {cartData} from "../../utils/data";
+import {element} from "prop-types";
 
 export const getOrder = createAsyncThunk(
 "order/create",
@@ -14,7 +15,7 @@ export const getOrder = createAsyncThunk(
 
 //TODO В initialState корзина пока берется из фейковых данных, когда перетаскивание будет - поправить
 const initialState = {
-    constructor: [...cartData],
+    constructor: [],
     orderId: null,
     isOrderSending: false,
     isOrderSendingError: false,
@@ -25,13 +26,22 @@ export const burgerConstructorSlice = createSlice({
     name: "burgerConstructor",
     initialState,
     reducers: {
-        adding: () => {},
+        adding: (state, action) => {
+           if (action.payload.type === "bun"){
+               const index = state.constructor.findIndex(el => el.type === "bun");
+               state.constructor.splice(index, 1);
+           }
+            state.constructor.push(action.payload);
+        },
         updating: () => {},
-        deleting: () => {}
+        deleting: (state, action) => {
+            const index = state.constructor.findIndex(el => el.type === action.payload.type);
+            state.constructor.splice(index, 1);
+        }
     },
     extraReducers: {}
 });
 
-export const {} = burgerConstructorSlice.actions;
+export const {adding, deleting} = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;
