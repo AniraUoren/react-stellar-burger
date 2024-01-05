@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React from "react";
 
 import Styles from "./burger-ingredient.module.css";
 import {ingredientPropType} from "../../utils/prop-types";
