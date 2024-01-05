@@ -11,7 +11,6 @@ import {adding, deleting} from "../../services/reducers/burger-constructor.slice
 
 function BurgerConstructor() {
     const cart = useSelector(state => state.burgerConstructor.constructor);
-    const [price, setPrice] = React.useState(610);
     const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch();
 
@@ -35,6 +34,21 @@ function BurgerConstructor() {
             isDragging: monitor.isOver()
         })
     })
+
+    const price = getPrice();
+
+    function getPrice () {
+        let sum = 0;
+        cart.map(elem => {
+            if (elem.type === "bun"){
+                sum += elem.price * 2;
+            } else {
+                sum += elem.price
+            }
+        })
+
+        return sum;
+    }
 
     return (
         <div className={`${Styles.block} pt-25`} ref={dropRef} onDragOver={(evt) => evt.preventDefault()}>
