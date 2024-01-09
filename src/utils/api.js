@@ -1,5 +1,3 @@
-import {stringify} from "uuid";
-
 export const getIngredientsAPI = () => fetch(`https://norma.nomoreparties.space/api/ingredients`)
     .then(res => {
         if (res.ok) {
@@ -11,7 +9,8 @@ export const getIngredientsAPI = () => fetch(`https://norma.nomoreparties.space/
 
 export const getOrderIdAPI = (data) => fetch(`https://norma.nomoreparties.space/api/orders`, {
     method: "POST",
-    body: stringify(data)
+    'Content-type': "application/json",
+    body: JSON.stringify(data)
 })
     .then(res => {
         if (res.ok) {

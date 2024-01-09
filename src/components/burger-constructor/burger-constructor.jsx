@@ -7,7 +7,8 @@ import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
-import {adding, deleting} from "../../services/reducers/burger-constructor.slice";
+import {adding, deleting, getOrder} from "../../services/reducers/burger-constructor.slice";
+import {getOrderIdAPI} from "../../utils/api";
 
 function BurgerConstructor() {
     const cart = useSelector(state => state.burgerConstructor.constructor);
@@ -24,6 +25,15 @@ function BurgerConstructor() {
         dispatch(deleting(ingredient))
     }
 
+    const handleConfirmOrder = () => {
+        let cartItemsArray = [];
+
+        cart.map(item => {
+            cartItemsArray.push(item._id);
+        })
+
+        dispatch(getOrder({"ingredients": [...cartItemsArray]}));
+    }
 
     const [{isDragging}, dropRef] = useDrop({
         accept: "ingredient",
@@ -111,7 +121,7 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-2">{price}</p>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={openModal}>
+                <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={handleConfirmOrder}>
                     Оформить заказ
                 </Button>
                 {isModalOpen && modal}

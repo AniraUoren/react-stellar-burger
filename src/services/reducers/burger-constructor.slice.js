@@ -1,19 +1,17 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {cartData} from "../../utils/data";
-import {element} from "prop-types";
+import {getOrderIdAPI} from "../../utils/api";
 
 export const getOrder = createAsyncThunk(
 "order/create",
-    async (arg, thunkAPI) => {
+    async (cart, thunkAPI) => {
         try {
-            //TODO Написать запрос на создание заказа
+            return await getOrderIdAPI(cart);
         } catch (e){
             thunkAPI.rejectWithValue(null)
         }
     }
 )
 
-//TODO В initialState корзина пока берется из фейковых данных, когда перетаскивание будет - поправить
 const initialState = {
     constructor: [],
     orderId: null,
@@ -39,7 +37,23 @@ export const burgerConstructorSlice = createSlice({
             state.constructor.splice(index, 1);
         }
     },
-    extraReducers: {}
+    extraReducers: builder => {
+        builder
+            .addCase(getOrder.pending, state => {
+                state.isOrderSending = true;
+                console.log("pending")
+            })
+            .addCase(getOrder.fulfilled, (state, action) => {
+                state.isOrderSending = false;
+                // state.orderId = [...action.payload];
+                console.log(action.payload)
+            })
+            .addCase(getOrder.rejected, (state, action) => {
+                state.isOrderSending = false;
+                state.isOrderSendingError = true;
+                state.orderSendingErrorText = action.payload;
+            })
+    }
 });
 
 export const {adding, deleting} = burgerConstructorSlice.actions;

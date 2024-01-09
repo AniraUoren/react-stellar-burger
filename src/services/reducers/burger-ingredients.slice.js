@@ -27,7 +27,6 @@ export const burgerIngredientsSlice = createSlice({
     initialState,
     reducers: {
         showIngredient: (state, {payload: ingredient}) => {
-            console.log(ingredient)
             state.viewedIngredient = ingredient;
             state.showModal = true;
         },
