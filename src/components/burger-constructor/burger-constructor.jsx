@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-constructor.module.css";
@@ -33,8 +33,6 @@ function BurgerConstructor() {
         })
 
         dispatch(getOrder({"ingredients": [...cartItemsArray]}));
-
-        openModal();
     }
 
     const [{isDragging}, dropRef] = useDrop({
@@ -61,6 +59,12 @@ function BurgerConstructor() {
 
         return sum;
     }
+
+    useEffect(() => {
+        if (orderId){
+            openModal();
+        }
+    }, [orderId])
 
     return (
         <div className={`${Styles.block} pt-25`} ref={dropRef} onDragOver={(evt) => evt.preventDefault()}>
