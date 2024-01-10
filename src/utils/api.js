@@ -9,7 +9,9 @@ export const getIngredientsAPI = () => fetch(`https://norma.nomoreparties.space/
 
 export const getOrderIdAPI = (data) => fetch(`https://norma.nomoreparties.space/api/orders`, {
     method: "POST",
-    'Content-type': "application/json",
+    headers: {
+        'Content-type': "application/json",
+    },
     body: JSON.stringify(data)
 })
     .then(res => {
