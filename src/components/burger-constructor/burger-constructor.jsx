@@ -8,16 +8,16 @@ import {useModal} from "../../hooks/useModal";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {adding, deleting, getOrder} from "../../services/reducers/burger-constructor.slice";
-import {getOrderIdAPI} from "../../utils/api";
 
 function BurgerConstructor() {
     const cart = useSelector(state => state.burgerConstructor.constructor);
+    const orderId = useSelector(state => state.burgerConstructor.orderId);
     const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch();
 
     const modal = (
         <Modal close={closeModal}>
-            <OrderDetails orderId={508}/>
+            <OrderDetails orderId={orderId}/>
         </Modal>
     )
 
@@ -33,6 +33,8 @@ function BurgerConstructor() {
         })
 
         dispatch(getOrder({"ingredients": [...cartItemsArray]}));
+
+        openModal();
     }
 
     const [{isDragging}, dropRef] = useDrop({
@@ -47,10 +49,10 @@ function BurgerConstructor() {
 
     const price = getPrice();
 
-    function getPrice () {
+    function getPrice() {
         let sum = 0;
         cart.map(elem => {
-            if (elem.type === "bun"){
+            if (elem.type === "bun") {
                 sum += elem.price * 2;
             } else {
                 sum += elem.price
@@ -91,7 +93,9 @@ function BurgerConstructor() {
                                         price={elem.price}
                                         thumbnail={elem.image}
                                         extraClass="ml-1 mr-2"
-                                        handleClose={() => {handleDelete(elem)}}
+                                        handleClose={() => {
+                                            handleDelete(elem)
+                                        }}
                                     />
                                 </div>
                             )
@@ -121,10 +125,11 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-2">{price}</p>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={handleConfirmOrder}>
+                <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4"
+                        onClick={handleConfirmOrder}>
                     Оформить заказ
                 </Button>
-                {isModalOpen && modal}
+                {isModalOpen && orderId && modal}
             </div>
         </div>
     )
