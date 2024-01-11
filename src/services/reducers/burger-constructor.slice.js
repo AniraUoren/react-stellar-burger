@@ -31,7 +31,9 @@ export const burgerConstructorSlice = createSlice({
            }
             state.constructor.push(action.payload);
         },
-        updating: () => {},
+        updating: (state, action) => {
+            state.constructor = action.payload;
+        },
         deleting: (state, action) => {
             const index = state.constructor.findIndex(el => el.type === action.payload.type);
             state.constructor.splice(index, 1);
@@ -56,6 +58,6 @@ export const burgerConstructorSlice = createSlice({
     }
 });
 
-export const {adding, deleting} = burgerConstructorSlice.actions;
+export const {adding, updating, deleting} = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

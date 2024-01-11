@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-constructor.module.css";
@@ -7,7 +7,8 @@ import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
-import {adding, deleting, getOrder} from "../../services/reducers/burger-constructor.slice";
+import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
+import CartElement from "../cart-element/cart-element";
 
 function BurgerConstructor() {
     const cart = useSelector(state => state.burgerConstructor.constructor);
@@ -45,81 +46,63 @@ function BurgerConstructor() {
         })
     })
 
-    const price = getPrice();
+    const handlerMovingItems = useCallback((draggableItem, hoveredItem) => {
+        const ingredients = [...cart];
+        ingredients.splice(draggableItem, 0, ingredients.splice(hoveredItem, 1)[0]);
+        dispatch(updating(ingredients));
+    }, []);
 
-    function getPrice() {
-        let sum = 0;
-        cart.map(elem => {
-            if (elem.type === "bun") {
-                sum += elem.price * 2;
-            } else {
-                sum += elem.price
-            }
-        })
+    const price = useMemo(() => {
+        return function () {
+            let sum = 0;
+            cart.map(elem => {
+                if (elem.type === "bun") {
+                    sum += elem.price * 2;
+                } else {
+                    sum += elem.price
+                }
+            })
 
-        return sum;
-    }
+            return sum;
+        }()
+    }, [cart])
 
     useEffect(() => {
-        if (orderId){
+        if (orderId) {
             openModal();
         }
     }, [orderId])
 
     return (
         <div className={`${Styles.block} pt-25`} ref={dropRef} onDragOver={(evt) => evt.preventDefault()}>
-            <div className={`${Styles.container} mb-10`}>
+            <div className={`${isDragging ? Styles.container_dragging : Styles.container} mb-10`}>
                 <div>
                     {cart.map((elem, index) => {
                         if (elem.type === "bun") {
-                            return (
-                                <ConstructorElement
-                                    type="top"
-                                    isLocked={true}
-                                    text={`${elem.name} (верх)`}
-                                    price={elem.price}
-                                    thumbnail={elem.image}
-                                    extraClass="ml-8"
-                                    key={`${elem._id}${index}`}
-                                />
-                            )
+                            return <CartElement element={elem}
+                                                isTop={true}
+                                                key={`${elem._id}${index}`}
+                                                handleDelete={handleDelete}/>
                         }
                     })}
                 </div>
                 <div className={`${Styles.center} custom-scroll`}>
                     {cart.map((elem, index) => {
                         if (elem.type !== "bun") {
-                            return (
-                                <div key={`${elem._id}${index}`} className={Styles.element}>
-                                    <DragIcon type="primary"/>
-                                    <ConstructorElement
-                                        text={elem.name}
-                                        price={elem.price}
-                                        thumbnail={elem.image}
-                                        extraClass="ml-1 mr-2"
-                                        handleClose={() => {
-                                            handleDelete(elem)
-                                        }}
-                                    />
-                                </div>
-                            )
+                            return <CartElement element={elem}
+                                                isTop={null}
+                                                key={`${elem._id}${index}`}
+                                                handleDelete={handleDelete}/>
                         }
                     })}
                 </div>
                 <div>
                     {cart.map((elem, index) => {
                         if (elem.type === "bun") {
-                            return (
-                                <ConstructorElement
-                                    type="bottom"
-                                    isLocked={true}
-                                    text={`${elem.name} (низ)`}
-                                    price={elem.price}
-                                    thumbnail={elem.image}
-                                    extraClass="ml-8"
-                                    key={`${elem._id}${index}`}
-                                />
-                            )
+                            return <CartElement element={elem}
+                                                isTop={false}
+                                                key={`${elem._id}${index}`}
+                                                handleDelete={handleDelete}/>
                         }
                     })}
                 </div>
