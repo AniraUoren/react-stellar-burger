@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-constructor.module.css";
@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
 import CartElement from "../cart-element/cart-element";
-
+import { v4 as uuidv4 } from 'uuid';
 function BurgerConstructor() {
     const components = useSelector(state => state.burgerConstructor.constructor);
     const bun = useSelector(state => state.burgerConstructor.bun);
@@ -54,22 +54,6 @@ function BurgerConstructor() {
         dispatch(updating({dragged: draggableItem, hovered: hoveredItem}));
     }, []);
 
-    // const price = () => {
-    //     return function () {
-    //         let sum = 0;
-    //         components.map(elem => {
-    //             if (elem.type === "bun") {
-    //                 sum += elem.price * 2;
-    //             } else {
-    //                 sum += elem.price
-    //             }
-    //         })
-    //
-    //         sum += bun.price * 2;
-    //
-    //         return sum;
-    //     }
-    // }
     useEffect(() => {
         if (orderId) {
             openModal();
@@ -82,7 +66,7 @@ function BurgerConstructor() {
                 <div>
                     {bun && <CartElement element={bun}
                                                 isTop={true}
-                                                key={`${bun._id}top`}
+                                                key={uuidv4()}
                                                 handleDelete={handleDelete}
                                                 moveCard={handlerMovingItems}/>}
                 </div>
@@ -90,7 +74,7 @@ function BurgerConstructor() {
                     {components.map((elem, index) => {
                             return <CartElement element={elem}
                                                 isTop={null}
-                                                key={`${elem._id}${index}`}
+                                                key={uuidv4()}
                                                 handleDelete={handleDelete}
                                                 index={index}
                                                 moveCard={handlerMovingItems}/>
@@ -99,7 +83,7 @@ function BurgerConstructor() {
                 <div>
                         {bun && <CartElement element={bun}
                                                 isTop={false}
-                                                key={`${bun._id}bottom`}
+                                                key={uuidv4()}
                                                 handleDelete={handleDelete}
                                                 moveCard={handlerMovingItems}/>
                         }
