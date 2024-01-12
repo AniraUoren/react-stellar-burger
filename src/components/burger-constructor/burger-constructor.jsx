@@ -62,9 +62,11 @@ function BurgerConstructor() {
                 }
             })
 
+            sum += bun.price * 2;
+
             return sum;
         }()
-    }, [components])
+    }, [components, bun.price])
 
     useEffect(() => {
         if (orderId) {
