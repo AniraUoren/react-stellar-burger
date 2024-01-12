@@ -20,7 +20,7 @@ function BurgerIngredient({ingredient}) {
     const getCount = () => {
         let counter = 0;
 
-        if (ingredient.type === "bun") {
+        if (bun && ingredient.type === "bun") {
             if (bun._id === ingredient._id) {
                 counter++;
             }
