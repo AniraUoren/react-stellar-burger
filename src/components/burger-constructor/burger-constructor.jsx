@@ -10,11 +10,12 @@ import {useDrop} from "react-dnd";
 import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
 import CartElement from "../cart-element/cart-element";
 import { v4 as uuidv4 } from 'uuid';
+import {getBunFromState, getConstructorFromState, getOrderIdFromState, getPriceFromState} from "../../utils/utils";
 function BurgerConstructor() {
-    const components = useSelector(state => state.burgerConstructor.constructor);
-    const bun = useSelector(state => state.burgerConstructor.bun);
-    const orderId = useSelector(state => state.burgerConstructor.orderId);
-    const price = useSelector(state => state.burgerConstructor.orderPrice);
+    const components = useSelector(getConstructorFromState);
+    const bun = useSelector(getBunFromState);
+    const orderId = useSelector(getOrderIdFromState);
+    const price = useSelector(getPriceFromState);
     const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch();
 

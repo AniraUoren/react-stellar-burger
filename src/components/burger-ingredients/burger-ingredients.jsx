@@ -8,12 +8,17 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients, hideIngredient, showIngredient} from "../../services/reducers/burger-ingredients.slice";
+import {
+    getIngredientsFromState,
+    getIngredientsLoadingStatusFromState,
+    getModalStatusFromState
+} from "../../utils/utils";
 
 function BurgerIngredients() {
     const [current, setCurrent] = React.useState('bun')
-    const ingredients = useSelector(state => state.burgerIngredients.burgerIngredients)
-    const isIngredientsLoaded = useSelector(state => state.burgerIngredients.burgerIngredientsLoaded);
-    const showModal = useSelector(state => state.burgerIngredients.showModal)
+    const ingredients = useSelector(getIngredientsFromState);
+    const isIngredientsLoaded = useSelector(getIngredientsLoadingStatusFromState);
+    const showModal = useSelector(getModalStatusFromState);
     const dispatch = useDispatch();
     const containerRef = useRef(null);
     const bunHeaderRef = useRef(null);

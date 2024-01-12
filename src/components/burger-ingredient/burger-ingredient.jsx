@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import {showIngredient} from "../../services/reducers/burger-ingredients.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
+import {getBunFromState, getConstructorFromState} from "../../utils/utils";
 
 function BurgerIngredient({ingredient}) {
     const dispatch = useDispatch();
@@ -14,8 +15,8 @@ function BurgerIngredient({ingredient}) {
         dispatch(showIngredient(ingredient));
     }
 
-    const ingredientsInConstructor = useSelector(state => state.burgerConstructor.constructor);
-    const bun = useSelector(state => state.burgerConstructor.bun);
+    const ingredientsInConstructor = useSelector(getConstructorFromState);
+    const bun = useSelector(getBunFromState);
 
     const getCount = () => {
         let counter = 0;
