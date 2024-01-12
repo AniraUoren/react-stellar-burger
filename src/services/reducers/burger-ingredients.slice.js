@@ -49,7 +49,7 @@ export const burgerIngredientsSlice = createSlice({
                 state.burgerIngredientsLoading = false;
                 state.burgerIngredientsError = true;
                 state.burgerIngredients = {};
-                state.burgerIngredientsErrorText = action.payload.error;
+                state.burgerIngredientsErrorText = action.payload;
             })
     }
 })
