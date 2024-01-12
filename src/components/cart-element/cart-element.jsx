@@ -3,6 +3,8 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import React, {useRef} from "react";
 import {cartData} from "../../utils/data";
 import {useDrag, useDrop} from "react-dnd";
+import {ingredientPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 function CartElement({element, isTop, handleDelete, index, moveCard}, key) {
     const cardRef = useRef(null);
@@ -97,6 +99,15 @@ function CartElement({element, isTop, handleDelete, index, moveCard}, key) {
             </div>
         )
     }
+}
+
+CartElement.prototype = {
+    element: ingredientPropType,
+    isTop: PropTypes.bool,
+    handleDelete: PropTypes.func,
+    index: PropTypes.number,
+    moveCard: PropTypes.func,
+    key: PropTypes.string,
 }
 
 export default CartElement;
