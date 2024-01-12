@@ -9,7 +9,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients, hideIngredient, showIngredient} from "../../services/reducers/burger-ingredients.slice";
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const [current, setCurrent] = React.useState('bun')
     const ingredients = useSelector(state => state.burgerIngredients.burgerIngredients)
     const isIngredientsLoaded = useSelector(state => state.burgerIngredients.burgerIngredientsLoaded);
@@ -33,7 +33,7 @@ function BurgerIngredients(props) {
         dispatch(hideIngredient());
     }
 
-    const handleNavigationMenu = (e) => {
+    const handleNavigationMenu = () => {
         const topContainer = containerRef.current.getBoundingClientRect().top;
         const topBun = bunHeaderRef.current.getBoundingClientRect().top;
         const topSouse = souseHeaderRef.current.getBoundingClientRect().top;
