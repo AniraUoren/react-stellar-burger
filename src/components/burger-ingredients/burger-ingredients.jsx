@@ -23,48 +23,6 @@ function BurgerIngredients(props) {
 
     useEffect(() => {
         dispatch(getIngredients());
-
-        // const handleScroll = () => {
-        // const { top } = containerRef.current.getBoundingClientRect();
-        // const sectionTitles = ["bun", "sauce", "main"];
-        // let closestSection = "";
-        //
-        // // console.log("run")
-        // // console.log(top)
-        //
-        // const headers = () => {
-        //     let temp = [];
-        //
-        //     sectionTitles.forEach(item => {
-        //         temp.push(containerRef.querySelector(`#${item}`));
-        //     })
-        //
-        //     return temp;
-        // }
-        //
-        // console.log(headers())
-
-        // Определение ближайшего заголовка
-        // if (top <= 0) {
-        //     closestSection = sectionTitles.reduce((prev, curr) => {
-        //         const prevDiff = Math.abs(
-        //             containerRef.current.querySelector(`#${prev}`).getBoundingClientRect().top);
-        //         const currDiff = Math.abs(
-        //             containerRef.current.querySelector(`#${curr}`).getBoundingClientRect().top);
-        //         return prevDiff < currDiff ? prev : curr;
-        //     });
-        // }
-        // console.log(closestSection)
-        // // Установка активного переключателя
-        // if (closestSection !== current) {
-        //     setCurrent(closestSection);
-        // }
-        // };
-
-        // window.addEventListener("scroll", handleScroll);
-        // return () => {
-        //     window.removeEventListener("scroll", handleScroll);
-        // };
     }, [current]);
 
     const handleIngredientClick = (ingredient) => {
