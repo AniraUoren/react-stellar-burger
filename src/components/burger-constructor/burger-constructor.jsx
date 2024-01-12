@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useCallback, useEffect, useMemo} from "react";
+import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
@@ -11,7 +11,8 @@ import {adding, deleting, getOrder, updating} from "../../services/reducers/burg
 import CartElement from "../cart-element/cart-element";
 
 function BurgerConstructor() {
-    const cart = useSelector(state => state.burgerConstructor.constructor);
+    const components = useSelector(state => state.burgerConstructor.constructor);
+    const bun = useSelector(state => state.burgerConstructor.bun);
     const orderId = useSelector(state => state.burgerConstructor.orderId);
     const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function BurgerConstructor() {
     const handleConfirmOrder = () => {
         let cartItemsArray = [];
 
-        cart.map(item => {
+        components.map(item => {
             cartItemsArray.push(item._id);
         })
 
@@ -47,15 +48,13 @@ function BurgerConstructor() {
     })
 
     const handlerMovingItems = useCallback((draggableItem, hoveredItem) => {
-        const ingredients = [...cart];
-        ingredients.splice(draggableItem, 0, ingredients.splice(hoveredItem, 1)[0]);
-        dispatch(updating(ingredients));
+        dispatch(updating({dragged: draggableItem, hovered: hoveredItem}));
     }, []);
 
     const price = useMemo(() => {
         return function () {
             let sum = 0;
-            cart.map(elem => {
+            components.map(elem => {
                 if (elem.type === "bun") {
                     sum += elem.price * 2;
                 } else {
@@ -65,7 +64,7 @@ function BurgerConstructor() {
 
             return sum;
         }()
-    }, [cart])
+    }, [components])
 
     useEffect(() => {
         if (orderId) {
@@ -77,34 +76,29 @@ function BurgerConstructor() {
         <div className={`${Styles.block} pt-25`} ref={dropRef} onDragOver={(evt) => evt.preventDefault()}>
             <div className={`${isDragging ? Styles.container_dragging : Styles.container} mb-10`}>
                 <div>
-                    {cart.map((elem, index) => {
-                        if (elem.type === "bun") {
-                            return <CartElement element={elem}
+                    {bun && <CartElement element={bun}
                                                 isTop={true}
-                                                key={`${elem._id}${index}`}
-                                                handleDelete={handleDelete}/>
-                        }
-                    })}
+                                                key={`${bun._id}top`}
+                                                handleDelete={handleDelete}
+                                                moveCard={handlerMovingItems}/>}
                 </div>
                 <div className={`${Styles.center} custom-scroll`}>
-                    {cart.map((elem, index) => {
-                        if (elem.type !== "bun") {
+                    {components.map((elem, index) => {
                             return <CartElement element={elem}
                                                 isTop={null}
                                                 key={`${elem._id}${index}`}
-                                                handleDelete={handleDelete}/>
-                        }
+                                                handleDelete={handleDelete}
+                                                index={index}
+                                                moveCard={handlerMovingItems}/>
                     })}
                 </div>
                 <div>
-                    {cart.map((elem, index) => {
-                        if (elem.type === "bun") {
-                            return <CartElement element={elem}
+                        {bun && <CartElement element={bun}
                                                 isTop={false}
-                                                key={`${elem._id}${index}`}
-                                                handleDelete={handleDelete}/>
+                                                key={`${bun._id}bottom`}
+                                                handleDelete={handleDelete}
+                                                moveCard={handlerMovingItems}/>
                         }
-                    })}
                 </div>
             </div>
             <div className={`${Styles.total} mt-40`}>

@@ -14,6 +14,7 @@ export const getOrder = createAsyncThunk(
 
 const initialState = {
     constructor: [],
+    bun: null,
     orderId: null,
     isOrderSending: false,
     isOrderSendingError: false,
@@ -26,13 +27,13 @@ export const burgerConstructorSlice = createSlice({
     reducers: {
         adding: (state, action) => {
            if (action.payload.type === "bun"){
-               const index = state.constructor.findIndex(el => el.type === "bun");
-               state.constructor.splice(index, 1);
+               state.bun = action.payload;
+           } else {
+               state.constructor.push(action.payload);
            }
-            state.constructor.push(action.payload);
         },
         updating: (state, action) => {
-            state.constructor = action.payload;
+            state.constructor.splice(action.payload.dragged, 0,  state.constructor.splice(action.payload.hovered, 1)[0]);
         },
         deleting: (state, action) => {
             const index = state.constructor.findIndex(el => el.type === action.payload.type);
