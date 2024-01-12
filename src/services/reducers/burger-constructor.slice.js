@@ -15,6 +15,7 @@ export const getOrder = createAsyncThunk(
 const initialState = {
     constructor: [],
     bun: null,
+    orderPrice: 0,
     orderId: null,
     isOrderSending: false,
     isOrderSendingError: false,
@@ -28,8 +29,10 @@ export const burgerConstructorSlice = createSlice({
         adding: (state, action) => {
            if (action.payload.type === "bun"){
                state.bun = action.payload;
+               state.orderPrice += action.payload.price * 2;
            } else {
                state.constructor.push(action.payload);
+               state.orderPrice += action.payload.price;
            }
         },
         updating: (state, action) => {

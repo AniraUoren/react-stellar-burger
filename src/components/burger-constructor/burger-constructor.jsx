@@ -14,6 +14,7 @@ function BurgerConstructor() {
     const components = useSelector(state => state.burgerConstructor.constructor);
     const bun = useSelector(state => state.burgerConstructor.bun);
     const orderId = useSelector(state => state.burgerConstructor.orderId);
+    const price = useSelector(state => state.burgerConstructor.orderPrice);
     const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch();
 
@@ -34,6 +35,8 @@ function BurgerConstructor() {
             cartItemsArray.push(item._id);
         })
 
+        cartItemsArray.push(bun._id);
+
         dispatch(getOrder({"ingredients": [...cartItemsArray]}));
     }
 
@@ -51,23 +54,22 @@ function BurgerConstructor() {
         dispatch(updating({dragged: draggableItem, hovered: hoveredItem}));
     }, []);
 
-    const price = useMemo(() => {
-        return function () {
-            let sum = 0;
-            components.map(elem => {
-                if (elem.type === "bun") {
-                    sum += elem.price * 2;
-                } else {
-                    sum += elem.price
-                }
-            })
-
-            sum += bun.price * 2;
-
-            return sum;
-        }()
-    }, [components, bun.price])
-
+    // const price = () => {
+    //     return function () {
+    //         let sum = 0;
+    //         components.map(elem => {
+    //             if (elem.type === "bun") {
+    //                 sum += elem.price * 2;
+    //             } else {
+    //                 sum += elem.price
+    //             }
+    //         })
+    //
+    //         sum += bun.price * 2;
+    //
+    //         return sum;
+    //     }
+    // }
     useEffect(() => {
         if (orderId) {
             openModal();

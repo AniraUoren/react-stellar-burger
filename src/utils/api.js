@@ -1,10 +1,7 @@
+import {isResOk} from "./utils";
+
 export const getIngredientsAPI = () => fetch(`https://norma.nomoreparties.space/api/ingredients`)
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-    })
+    .then(isResOk)
     .catch(err => console.error(`Произошла ошибка: ${err}`))
 
 export const getOrderIdAPI = (data) => fetch(`https://norma.nomoreparties.space/api/orders`, {
@@ -14,12 +11,5 @@ export const getOrderIdAPI = (data) => fetch(`https://norma.nomoreparties.space/
     },
     body: JSON.stringify(data)
 })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-    })
+    .then(isResOk)
     .catch(err => console.error(`Произошла ошибка: ${err}`))
-
-//TODO Проверку вынести в отдельную утилиту
