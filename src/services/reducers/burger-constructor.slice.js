@@ -54,6 +54,7 @@ export const burgerConstructorSlice = createSlice({
                 state.orderId = action.payload.order.number;
                 state.constructor = [];
                 state.bun = null;
+                state.orderPrice = 0;
             })
             .addCase(getOrder.rejected, (state, action) => {
                 state.isOrderSending = false;
