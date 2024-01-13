@@ -9,7 +9,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
 import CartElement from "../cart-element/cart-element";
-import { v4 as uuidv4 } from 'uuid';
 import {getBunFromState, getConstructorFromState, getOrderIdFromState, getPriceFromState} from "../../utils/utils";
 function BurgerConstructor() {
     const components = useSelector(getConstructorFromState);
@@ -67,7 +66,7 @@ function BurgerConstructor() {
                 <div>
                     {bun && <CartElement element={bun}
                                                 isTop={true}
-                                                key={uuidv4()}
+                                                key={bun.key}
                                                 handleDelete={handleDelete}
                                                 moveCard={handlerMovingItems}/>}
                 </div>
@@ -75,7 +74,7 @@ function BurgerConstructor() {
                     {components.map((elem, index) => {
                             return <CartElement element={elem}
                                                 isTop={null}
-                                                key={uuidv4()}
+                                                key={elem.key}
                                                 handleDelete={handleDelete}
                                                 index={index}
                                                 moveCard={handlerMovingItems}/>
@@ -84,7 +83,7 @@ function BurgerConstructor() {
                 <div>
                         {bun && <CartElement element={bun}
                                                 isTop={false}
-                                                key={uuidv4()}
+                                                key={bun.key}
                                                 handleDelete={handleDelete}
                                                 moveCard={handlerMovingItems}/>
                         }
