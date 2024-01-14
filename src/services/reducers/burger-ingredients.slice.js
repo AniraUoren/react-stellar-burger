@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {getIngredientsAPI} from "../../utils/api";
-import { v4 as uuidv4 } from 'uuid';
 
 export const getIngredients = createAsyncThunk(
     "burgerIngredients/getIngredients",
@@ -45,9 +44,6 @@ export const burgerIngredientsSlice = createSlice({
                 state.burgerIngredientsLoaded = true;
                 state.burgerIngredientsLoading = false;
                 state.burgerIngredients = [...action.payload.data];
-                state.burgerIngredients.map(item => {
-                    item.key = uuidv4();
-                })
             })
             .addCase(getIngredients.rejected, (state, action) => {
                 state.burgerIngredientsLoading = false;

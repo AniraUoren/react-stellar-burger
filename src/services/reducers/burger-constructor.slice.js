@@ -47,7 +47,6 @@ export const burgerConstructorSlice = createSlice({
         builder
             .addCase(getOrder.pending, state => {
                 state.isOrderSending = true;
-                console.log("pending")
             })
             .addCase(getOrder.fulfilled, (state, action) => {
                 state.isOrderSending = false;

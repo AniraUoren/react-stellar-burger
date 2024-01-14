@@ -10,6 +10,7 @@ import {useDrop} from "react-dnd";
 import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
 import CartElement from "../cart-element/cart-element";
 import {getBunFromState, getConstructorFromState, getOrderIdFromState, getPriceFromState} from "../../utils/utils";
+import { v4 as uuidv4 } from 'uuid';
 function BurgerConstructor() {
     const components = useSelector(getConstructorFromState);
     const bun = useSelector(getBunFromState);
@@ -43,7 +44,8 @@ function BurgerConstructor() {
     const [{isDragging}, dropRef] = useDrop({
         accept: "ingredient",
         drop(item) {
-            dispatch(adding(item))
+
+            dispatch(adding({...item, key: uuidv4()}))
         },
         collect: monitor => ({
             isDragging: monitor.isOver()
