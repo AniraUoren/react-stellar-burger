@@ -1,90 +1,109 @@
-import React from "react";
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useCallback, useEffect} from "react";
+import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-constructor.module.css";
-import {cartData} from "../../utils/data";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
-
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
+import {adding, deleting, getOrder, updating} from "../../services/reducers/burger-constructor.slice";
+import CartElement from "../cart-element/cart-element";
+import {getBunFromState, getConstructorFromState, getOrderIdFromState, getPriceFromState} from "../../utils/utils";
+import { v4 as uuidv4 } from 'uuid';
 function BurgerConstructor() {
-    const [cart, setCart] = React.useState(cartData);
-    const [price, setPrice] = React.useState(610);
+    const components = useSelector(getConstructorFromState);
+    const bun = useSelector(getBunFromState);
+    const orderId = useSelector(getOrderIdFromState);
+    const price = useSelector(getPriceFromState);
     const {isModalOpen, openModal, closeModal} = useModal();
+    const dispatch = useDispatch();
 
     const modal = (
         <Modal close={closeModal}>
-            <OrderDetails orderId={508}/>
+            <OrderDetails orderId={orderId}/>
         </Modal>
     )
 
+    const handleDelete = (ingredient) => {
+        dispatch(deleting(ingredient))
+    }
+
+    const handleConfirmOrder = () => {
+        let cartItemsArray = [];
+
+        components.map(item => {
+            cartItemsArray.push(item._id);
+        })
+
+        cartItemsArray.push(bun._id);
+
+        dispatch(getOrder({"ingredients": [...cartItemsArray]}));
+    }
+
+    const [{isDragging}, dropRef] = useDrop({
+        accept: "ingredient",
+        drop(item) {
+
+            dispatch(adding({...item, key: uuidv4()}))
+        },
+        collect: monitor => ({
+            isDragging: monitor.isOver()
+        })
+    })
+
+    const handlerMovingItems = useCallback((draggableItem, hoveredItem) => {
+        dispatch(updating({dragged: draggableItem, hovered: hoveredItem}));
+    }, []);
+
+    useEffect(() => {
+        if (orderId) {
+            openModal();
+        }
+    }, [orderId])
+
     return (
-        <div className={`${Styles.block} pt-25`}>
-            <div className={`${Styles.container} mb-10`}>
+        <div className={`${Styles.block} pt-25`} ref={dropRef} onDragOver={(evt) => evt.preventDefault()}>
+            <div className={`${isDragging ? Styles.container_dragging : Styles.container} mb-10`}>
                 <div>
-                    {cart.map((elem, index) => {
-                        if (elem.type === "bun") {
-                            return (
-                                <ConstructorElement
-                                    type="top"
-                                    isLocked={true}
-                                    text={`${elem.name} (верх)`}
-                                    price={elem.price}
-                                    thumbnail={elem.image}
-                                    extraClass="ml-8"
-                                    key={`${elem._id}${index}`}
-                                />
-                            )
-                        }
+                    {bun && <CartElement element={bun}
+                                                isTop={true}
+                                                key={bun.key}
+                                                handleDelete={handleDelete}
+                                                moveCard={handlerMovingItems}/>}
+                </div>
+                <div className={`${Styles.center} custom-scroll`}>
+                    {components.map((elem, index) => {
+                            return <CartElement element={elem}
+                                                isTop={null}
+                                                key={elem.key}
+                                                handleDelete={handleDelete}
+                                                index={index}
+                                                moveCard={handlerMovingItems}/>
                     })}
+                </div>
+                <div>
+                        {bun && <CartElement element={bun}
+                                                isTop={false}
+                                                key={bun.key}
+                                                handleDelete={handleDelete}
+                                                moveCard={handlerMovingItems}/>
+                        }
+                </div>
             </div>
-            <div className={`${Styles.center} custom-scroll`}>
-                {cart.map((elem, index) => {
-                    if (elem.type !== "bun") {
-                        return (
-                            <div key={`${elem._id}${index}`}>
-                                <DragIcon type="primary"/>
-                                <ConstructorElement
-                                    text={elem.name}
-                                    price={elem.price}
-                                    thumbnail={elem.image}
-                                    extraClass="ml-1 mr-2"
-                                />
-                            </div>
-                        )
-                    }
-                })}
-            </div>
-            <div>
-                {cart.map((elem, index) => {
-                    if (elem.type === "bun") {
-                        return (
-                            <ConstructorElement
-                                type="bottom"
-                                isLocked={true}
-                                text={`${elem.name} (низ)`}
-                                price={elem.price}
-                                thumbnail={elem.image}
-                                extraClass="ml-8"
-                                key={`${elem._id}${index}`}
-                            />
-                        )
-                    }
-                })}
+            <div className={`${Styles.total} mt-40`}>
+                <div className={`${Styles.price}`}>
+                    <p className="text text_type_digits-medium mr-2">{price}</p>
+                    <CurrencyIcon type="primary"/>
+                </div>
+                <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4"
+                        onClick={handleConfirmOrder}>
+                    Оформить заказ
+                </Button>
+                {isModalOpen && orderId && modal}
             </div>
         </div>
-    <div className={`${Styles.total} mt-40`}>
-        <div className={`${Styles.price}`}>
-            <p className="text text_type_digits-medium mr-2">{price}</p>
-            <CurrencyIcon type="primary"/>
-        </div>
-        <Button htmlType="button" type="primary" size="large" extraClass="ml-10 mr-4" onClick={openModal}>
-            Оформить заказ
-        </Button>
-        {isModalOpen && modal}
-    </div>
-</div>
-)
+    )
 
 }
 

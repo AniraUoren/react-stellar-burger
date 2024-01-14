@@ -2,8 +2,10 @@ import React from "react";
 
 import Styles from "./ingredient-details.module.css";
 import {ingredientPropType} from "../../utils/prop-types";
-function IngredientDetails(props) {
-    const {image, name, calories, proteins, fat, carbohydrates} = props.ingredient;
+import {useSelector} from "react-redux";
+import {getViewedIngredientFromState} from "../../utils/utils";
+function IngredientDetails() {
+    const {image, name, calories, proteins, fat, carbohydrates} = useSelector(getViewedIngredientFromState);
     return(
         <div className={`${Styles.container}`}>
             <p className={`${Styles.header} text text_type_main-large mt-10`}>Детали ингредиента</p>

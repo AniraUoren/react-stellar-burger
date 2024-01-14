@@ -1,30 +1,63 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Styles from "./burger-ingredients.module.css"
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {ingredientPropType} from "../../utils/prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients, hideIngredient, showIngredient} from "../../services/reducers/burger-ingredients.slice";
+import {
+    getIngredientsFromState,
+    getIngredientsLoadingStatusFromState,
+    getModalStatusFromState
+} from "../../utils/utils";
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const [current, setCurrent] = React.useState('bun')
-    const [...ingredients] = props.data;
-    const [clickedElement, setClickedElement] = useState(null);
+    const ingredients = useSelector(getIngredientsFromState);
+    const isIngredientsLoaded = useSelector(getIngredientsLoadingStatusFromState);
+    const showModal = useSelector(getModalStatusFromState);
+    const dispatch = useDispatch();
+    const containerRef = useRef(null);
+    const bunHeaderRef = useRef(null);
+    const souseHeaderRef = useRef(null);
+    const mainHeaderRef = useRef(null);
+
+
+    useEffect(() => {
+        dispatch(getIngredients());
+    }, [current]);
 
     const handleIngredientClick = (ingredient) => {
-        setClickedElement(ingredient);
+        dispatch(showIngredient(ingredient));
     }
 
     const handleCloseModal = () => {
-        setClickedElement(null);
+        dispatch(hideIngredient());
+    }
+
+    const handleNavigationMenu = () => {
+        const topContainer = containerRef.current.getBoundingClientRect().top;
+        const topBun = bunHeaderRef.current.getBoundingClientRect().top;
+        const topSouse = souseHeaderRef.current.getBoundingClientRect().top;
+        const topMain = mainHeaderRef.current.getBoundingClientRect().top;
+
+        if (Math.abs(topContainer - topBun) < Math.abs(topContainer - topSouse) &&
+            Math.abs(topContainer - topBun) < Math.abs(topContainer - topMain)) {
+            setCurrent("bun");
+        } else if (Math.abs(topContainer - topSouse) < Math.abs(topContainer - topBun) &&
+                   Math.abs(topContainer - topBun) < Math.abs(topContainer - topMain)) {
+            setCurrent("sauce");
+        } else {
+            setCurrent("main");
+        }
     }
 
     const modal = (
         <Modal close={handleCloseModal}>
-            <IngredientDetails ingredient={clickedElement}/>
+            <IngredientDetails/>
         </Modal>
     );
 
@@ -45,56 +78,56 @@ function BurgerIngredients(props) {
                         Начинки
                     </Tab>
                 </div>
-                <div className={`${Styles.ingredients} custom-scroll`}>
-                    <h2 className="text text_type_main-medium">Булки</h2>
+                <div className={`${Styles.ingredients} custom-scroll`} ref={containerRef}
+                     onScroll={handleNavigationMenu}>
+                    <h2 className="text text_type_main-medium" ref={bunHeaderRef}>Булки</h2>
                     <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "bun") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} counter={2} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
+                        {
+                            isIngredientsLoaded ? ingredients.map(elem => {
+                                if (elem.type === "bun") {
+                                    return (
+                                        <BurgerIngredient ingredient={elem} key={elem._id}
+                                                          setSelectedElement={handleIngredientClick}/>
+                                    )
+                                }
+                            }) : <p>NO DATA</p>
+                        }
                     </ul>
 
-                    <h2 className="text text_type_main-medium">Соусы</h2>
+                    <h2 className="text text_type_main-medium" ref={souseHeaderRef}>Соусы</h2>
 
                     <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "sauce") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
+                        {
+                            isIngredientsLoaded ? ingredients.map(elem => {
+                                if (elem.type === "sauce") {
+                                    return (
+                                        <BurgerIngredient ingredient={elem} key={elem._id}
+                                                          setSelectedElement={handleIngredientClick}/>
+                                    )
+                                }
+                            }) : <p>NO DATA</p>
+                        }
                     </ul>
 
-                    <h2 className="text text_type_main-medium">Начинки</h2>
+                    <h2 className="text text_type_main-medium" ref={mainHeaderRef}>Начинки</h2>
 
                     <ul className={`${Styles.list} mb-10`}>
-                            {
-                                ingredients.map(elem => {
-                                    if (elem.type === "main") {
-                                        return (
-                                            <BurgerIngredient ingredient={elem} key={elem._id} setSelectedElement={handleIngredientClick}/>
-                                        )
-                                    }
-                                })
-                            }
+                        {
+                            isIngredientsLoaded ? ingredients.map(elem => {
+                                if (elem.type === "main") {
+                                    return (
+                                        <BurgerIngredient ingredient={elem} key={elem._id}
+                                                          setSelectedElement={handleIngredientClick}/>
+                                    )
+                                }
+                            }) : <p>NO DATA</p>
+                        }
                     </ul>
                 </div>
             </div>
-            {clickedElement && modal}
+            {showModal && modal}
         </div>
     )
-}
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;
